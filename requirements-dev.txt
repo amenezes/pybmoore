@@ -1,0 +1,13 @@
+flake8
+pytest
+pytest-cov
+isort
+black
+mypy
+tox
+codecov
+safety
+# optional for asdf-vm
+tox-asdf
+# performance
+vprof
