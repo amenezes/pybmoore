@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/amenezes/pybmoore.svg?branch=master)](https://travis-ci.org/amenezes/pybmoore)
-[![Maintainability](https://api.codeclimate.com/v1/badges/7b8b70e0c20c6809df54/maintainability)](https://codeclimate.com/github/amenezes/pybmoore/maintainability)
+![Build Status](https://github.com/amenezes/pybmoore/actions/workflows/ci.yml/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/amenezes/pybmoore/branch/master/graph/badge.svg)](https://codecov.io/gh/amenezes/pybmoore)
 [![PyPI version](https://badge.fury.io/py/pybmoore.svg)](https://badge.fury.io/py/pybmoore)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pybmoore)
