@@ -57,7 +57,7 @@ def test_suffix_shift(pattern, expected):
     ],
 )
 def test_suffix_position(badchar, suffix, pattern, expected):
-    assert pybmoore.suffix_position(badchar, suffix, pattern) == expected
+    assert pybmoore.suffix_position(badchar, suffix, pattern, len(pattern)) == expected
 
 
 @pytest.mark.parametrize(
