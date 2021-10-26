@@ -11,16 +11,19 @@ with open("README.md", "r") as fh:
 # http://docs.cython.org/en/latest/src/userguide/source_files_and_compilation.html#distributing-cython-modules
 cython_extension = ".c"
 if os.getenv("USE_CYTHON"):
-    print('USE_CYTHON enabled')
+    print("USE_CYTHON enabled")
     cython_extension = ".pyx"
 
 extensions = [
     setuptools.extension.Extension("pybmoore._bm", [f"pybmoore/_bm{cython_extension}"])
 ]
 
-if os.getenv('USE_CYTHON'):
+if os.getenv("USE_CYTHON"):
     from Cython.Build import cythonize
-    extensions = cythonize(extensions, annotate=True, compiler_directives={"language_level": 3})
+
+    extensions = cythonize(
+        extensions, annotate=True, compiler_directives={"language_level": 3}
+    )
 
 
 setuptools.setup(
@@ -36,9 +39,6 @@ setuptools.setup(
     packages=setuptools.find_packages(include=["pybmoore", "pybmoore.*"]),
     python_requires=">=3.6.0",
     ext_modules=extensions,
-    #ext_modules=cythonize(
-    #    extensions, annotate=True, compiler_directives={"language_level": 3}
-    #),
     project_urls=OrderedDict(
         (
             ("Documentation", "https://github.com/amenezes/pybmoore"),

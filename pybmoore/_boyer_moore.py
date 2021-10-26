@@ -1,10 +1,7 @@
 from functools import singledispatch
 from typing import Dict, List, Tuple
 
-try:
-    from . import _bm  # type: ignore
-except ModuleNotFoundError:
-    raise RuntimeError("Failed to load _bm module.")
+from pybmoore import _bm  # type: ignore
 
 
 @singledispatch
