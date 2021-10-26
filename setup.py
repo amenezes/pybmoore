@@ -3,8 +3,6 @@ from collections import OrderedDict
 
 import setuptools
 
-from pybmoore import __version__
-
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
@@ -24,6 +22,10 @@ if os.getenv("USE_CYTHON"):
     extensions = cythonize(
         extensions, annotate=True, compiler_directives={"language_level": 3}
     )
+
+with open('pybmoore/__version__.py', 'r') as f:
+    *_, __version__ = f.read().partition('=')
+__version__ = __version__.strip(" \n'\"")
 
 
 setuptools.setup(

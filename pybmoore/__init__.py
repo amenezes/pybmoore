@@ -7,8 +7,4 @@ except ModuleNotFoundError:
     raise RuntimeError("Failed to load _bm module.")
 
 
-__all__ = [
-    "__version__",
-    "_bm",
-    "search",
-]
+__all__ = ["search"]

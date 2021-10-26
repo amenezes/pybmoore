@@ -22,7 +22,7 @@ endif
 
 tests:
 	@echo "> unittest"
-	python -m pytest -vv --durations=5 --cov-report xml --cov-report term --cov=pybmoore tests
+	python -m pytest --durations=5 -vv --no-cov-on-fail --color=yes --cov-report xml --cov-report term --cov=pybmoore tests
 
 install-deps:
 	@echo "> installing dependencies..."
@@ -36,6 +36,11 @@ build:
 	@echo "> building package..."
 	python setup.py build_ext -i
 	python setup.py sdist bdist_wheel
+
+clean:
+	@echo "> cleaning up the environment"
+	rm pybmoore/*.so
+	rm pybmoore/*.html
 
 publish: build
 	TWINE_PASSWORD=${CI_JOB_TOKEN} TWINE_USERNAME=gitlab-ci-token python -m twine upload --repository-url https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi dist/*
@@ -66,4 +71,4 @@ endif
 
 all: install-deps ci build
 
-.PHONY: lint tests ci tox build install-deps all
+.PHONY: lint tests ci tox build install-deps clean all
