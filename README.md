@@ -6,7 +6,7 @@
 
 # pybmoore
 
-Pure Python implementation of [Boyer-Moore string-search algorithm](https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore_string-search_algorithm).
+Python/Cython implementation of [Boyer-Moore string-search algorithm](https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore_string-search_algorithm).
 
 ## Installing
 

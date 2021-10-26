@@ -17,7 +17,7 @@ import pybmoore
     ],
 )
 def test_bad_char_shift(pattern, expected):
-    assert pybmoore.bad_char_shift(pattern) == expected
+    assert pybmoore._bm.bad_char_shift(pattern) == expected
 
 
 @pytest.mark.parametrize(
@@ -44,7 +44,7 @@ def test_bad_char_shift(pattern, expected):
     ],
 )
 def test_suffix_shift(pattern, expected):
-    assert pybmoore.suffix_shift(pattern) == expected
+    assert pybmoore._bm.suffix_shift(pattern) == expected
 
 
 @pytest.mark.parametrize(
@@ -57,7 +57,9 @@ def test_suffix_shift(pattern, expected):
     ],
 )
 def test_suffix_position(badchar, suffix, pattern, expected):
-    assert pybmoore.suffix_position(badchar, suffix, pattern, len(pattern)) == expected
+    assert (
+        pybmoore._bm.suffix_position(badchar, suffix, pattern, len(pattern)) == expected
+    )
 
 
 @pytest.mark.parametrize(

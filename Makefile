@@ -1,5 +1,6 @@
 .DEFAULT_GOAL := about
 VERSION := $(shell cat pybmoore/__version__.py | cut -d'"' -f 2)
+USE_CYTHON := 1
 
 lint:
 ifeq ($(SKIP_STYLE), )
@@ -21,7 +22,7 @@ endif
 
 tests:
 	@echo "> unittest"
-	python -m pytest -v --cov-report xml --cov-report term --cov=pybmoore tests
+	python -m pytest -vv --durations=5 --cov-report xml --cov-report term --cov=pybmoore tests
 
 install-deps:
 	@echo "> installing dependencies..."
@@ -31,10 +32,14 @@ tox:
 	@echo "> running tox..."
 	tox -r -p all
 
-build-pkg:
+build:
 	@echo "> building package..."
+	python setup.py build_ext -i
 	python setup.py sdist bdist_wheel
+
+publish: build
 	TWINE_PASSWORD=${CI_JOB_TOKEN} TWINE_USERNAME=gitlab-ci-token python -m twine upload --repository-url https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi dist/*
+
 
 about:
 	@echo "> pybmoore [$(VERSION)]"
@@ -43,7 +48,7 @@ about:
 	@echo "make tests        - Run: tests."
 	@echo "make ci           - Runs: [lint > tests]"
 	@echo "make tox          - Runs tox."
-	@echo "make build-pkg    - Build package."
+	@echo "make build        - Build package."
 	@echo "make install-deps - Install development dependencies."
 	@echo ""
 	@echo "mailto: alexandre.fmenezes@gmail.com"
@@ -59,6 +64,6 @@ ifeq ($(GITHUB_HEAD_REF), false)
 	./cc-test-reporter upload-coverage -i codeclimate.json -r $$CC_TEST_REPORTER_ID
 endif
 
-all: install-deps ci build-pkg
+all: install-deps ci build
 
-.PHONY: lint tests ci tox build-pkg install-deps all
+.PHONY: lint tests ci tox build install-deps all

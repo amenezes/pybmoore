@@ -1,3 +1,4 @@
+import os
 from collections import OrderedDict
 
 import setuptools
@@ -6,6 +7,21 @@ from pybmoore import __version__
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
+
+# http://docs.cython.org/en/latest/src/userguide/source_files_and_compilation.html#distributing-cython-modules
+cython_extension = ".c"
+if os.getenv("USE_CYTHON"):
+    print('USE_CYTHON enabled')
+    cython_extension = ".pyx"
+
+extensions = [
+    setuptools.extension.Extension("pybmoore._bm", [f"pybmoore/_bm{cython_extension}"])
+]
+
+if os.getenv('USE_CYTHON'):
+    from Cython.Build import cythonize
+    extensions = cythonize(extensions, annotate=True, compiler_directives={"language_level": 3})
+
 
 setuptools.setup(
     name="pybmoore",
@@ -19,6 +35,10 @@ setuptools.setup(
     url="https://github.com/amenezes/pybmoore",
     packages=setuptools.find_packages(include=["pybmoore", "pybmoore.*"]),
     python_requires=">=3.6.0",
+    ext_modules=extensions,
+    #ext_modules=cythonize(
+    #    extensions, annotate=True, compiler_directives={"language_level": 3}
+    #),
     project_urls=OrderedDict(
         (
             ("Documentation", "https://github.com/amenezes/pybmoore"),
