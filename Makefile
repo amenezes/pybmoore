@@ -42,10 +42,6 @@ clean:
 	rm pybmoore/*.so
 	rm pybmoore/*.html
 
-publish: build
-	TWINE_PASSWORD=${CI_JOB_TOKEN} TWINE_USERNAME=gitlab-ci-token python -m twine upload --repository-url https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi dist/*
-
-
 about:
 	@echo "> pybmoore [$(VERSION)]"
 	@echo ""
@@ -55,6 +51,7 @@ about:
 	@echo "make tox          - Runs tox."
 	@echo "make build        - Build package."
 	@echo "make install-deps - Install development dependencies."
+	@echo "make clean        - Cleans the environment for a new build."
 	@echo ""
 	@echo "mailto: alexandre.fmenezes@gmail.com"
 

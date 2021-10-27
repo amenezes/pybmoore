@@ -23,8 +23,8 @@ if os.getenv("USE_CYTHON"):
         extensions, annotate=True, compiler_directives={"language_level": 3}
     )
 
-with open('pybmoore/__version__.py', 'r') as f:
-    *_, __version__ = f.read().partition('=')
+with open("pybmoore/__version__.py", "r") as f:
+    *_, __version__ = f.read().partition("=")
 __version__ = __version__.strip(" \n'\"")
 
 

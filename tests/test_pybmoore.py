@@ -99,6 +99,7 @@ def test_search(pattern, expected):
         ("tests/data/br_constitution.txt", "Deus", 3),
         ("tests/data/br_constitution.txt", "Lei nº", 49),
         ("tests/data/br_constitution.txt", "Brasil", 41),
+        ("tests/data/br_constitution.txt", "§ 1º", 293),
         ("tests/data/us_constitution.txt", "Section", 56),
         ("tests/data/us_constitution.txt", "freedom", 1),
         ("tests/data/us_constitution.txt", "Congress", 60),
