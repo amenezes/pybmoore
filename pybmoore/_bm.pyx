@@ -3,6 +3,24 @@ from typing import Dict, List, Tuple
 
 import cython
 
+from ._bm cimport calc_offset, term_index
+
+
+cdef int calc_offset(badchar_d: cython.int, goodsuffix_d: cython.int):
+    if badchar_d > goodsuffix_d:
+        return badchar_d
+    return goodsuffix_d
+
+
+cdef int term_index(offset: cython.int, suffix_len: cython.int):
+    return (offset - suffix_len) - 1
+
+
+cdef bint flag(int term_index, str suffix_char, str pattern_char):
+    if (term_index > 0) or (suffix_char != pattern_char):
+        return 0
+    return 1
+
 
 def search(pattern: str, source: str) -> List[Tuple[int, int]]:
     pattern_len: cython.int = len(pattern)
@@ -24,18 +42,11 @@ def search(pattern: str, source: str) -> List[Tuple[int, int]]:
             except KeyError:
                 badchar_shift: cython.int = pattern_len
             goodsuffix_shift = good_suffix[pattern_len - sliding_window]
-            i += _calc_offset(badchar_shift, goodsuffix_shift)
+            i += calc_offset(badchar_shift, goodsuffix_shift)
         else:
             r.append((i, i + pattern_len))
             i += 1
     return r
-
-
-@cython.cfunc
-def _calc_offset(badchar_d: cython.int, goodsuffix_d: cython.int) -> cython.int:
-    if badchar_d > goodsuffix_d:
-        return badchar_d
-    return goodsuffix_d
 
 
 def bad_char_shift(pattern: str) -> Dict[str, int]:
@@ -59,26 +70,14 @@ def suffix_shift(pattern: str) -> Dict:
 def suffix_position(badchar: str, suffix: deque, pattern: str, pattern_len: int) -> int:
     suffix_len: cython.int = len(suffix)
     for offset in range(1, pattern_len + 1)[::-1]:
-        flag: cython.uchar = 1
-        term_index: cython.int = _term_index(offset, suffix_len)
+        flag_active: cython.bint = 1
+        tindex = term_index(offset, suffix_len)
         for suffix_index in range(suffix_len):
-            flag: cython.uchar = _flag(
-                term_index,
+            flag_active: cython.bint = flag(
+                tindex,
                 suffix[suffix_index],
-                pattern[term_index + suffix_index]
+                pattern[tindex + suffix_index]
             )
-        if flag and (term_index <= 0 or pattern[term_index - 1] != badchar):
+        if flag_active and (tindex <= 0 or pattern[tindex - 1] != badchar):
             return pattern_len - offset + 1
-
-
-@cython.cfunc
-def _term_index(offset: cython.int, suffix_len: cython.int) -> cython.int:
-    return (offset - suffix_len) - 1
-
-
-@cython.cfunc
-def _flag(term_index: cython.int, str suffix_char, str pattern_char) -> cython.uchar:
-    if (term_index > 0) or (suffix_char != pattern_char):
-        return 0
-    return 1
 

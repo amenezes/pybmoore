@@ -20,7 +20,9 @@ if os.getenv("USE_CYTHON"):
     from Cython.Build import cythonize
 
     extensions = cythonize(
-        extensions, annotate=True, compiler_directives={"language_level": 3}
+        extensions,
+        annotate=True,
+        compiler_directives={"language_level": 3},
     )
 
 with open("pybmoore/__version__.py", "r") as f:

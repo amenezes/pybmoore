@@ -41,6 +41,7 @@ clean:
 	@echo "> cleaning up the environment"
 	rm pybmoore/*.so
 	rm pybmoore/*.html
+	rm pybmoore/_bm.c
 
 about:
 	@echo "> pybmoore [$(VERSION)]"
