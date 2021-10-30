@@ -63,6 +63,18 @@ print(matches)
 # output: {'brute-force': [(144, 155)], 'Boyer-Moore': [(4, 15), (212, 223)]}
 ```
 
+## Development
+
+To build **pybmoore** locally first install `requirements-dev.txt` dependencies and run:
+
+```bash
+make build USE_CYTHON=1
+# or
+# make build
+```
+
+Type `make` in the command line to see all available targets.
+
 ## Links
 
 - License: [Apache License](https://choosealicense.com/licenses/apache-2.0/)

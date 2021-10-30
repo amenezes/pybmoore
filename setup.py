@@ -35,13 +35,14 @@ setuptools.setup(
     version=f"{__version__}",
     author="alexandre menezes",
     author_email="alexandre.fmenezes@gmail.com",
-    description="pure python Boyer-Moore string-search algorithm",
+    description="Python/Cython Boyer-Moore string-search algorithm",
     long_description=long_description,
     long_description_content_type="text/markdown",
     license="Apache-2.0",
     url="https://github.com/amenezes/pybmoore",
     packages=setuptools.find_packages(include=["pybmoore", "pybmoore.*"]),
     python_requires=">=3.6.0",
+    platforms=["macOS", "POSIX"],
     ext_modules=extensions,
     project_urls=OrderedDict(
         (
@@ -60,6 +61,7 @@ setuptools.setup(
         "tox",
         "codecov",
         "safety",
+        "Cython",
     ],
     setup_requires=["setuptools>=38.6.0"],
     classifiers=[
@@ -67,6 +69,8 @@ setuptools.setup(
         "Intended Audience :: Developers",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
+        "Programming Language :: Python",
+        "Programming Language :: Cython",
         "Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
@@ -76,5 +80,6 @@ setuptools.setup(
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
         "Topic :: Software Development :: Libraries",
+        "Topic :: Software Development :: Libraries :: Python Modules",
     ],
 )

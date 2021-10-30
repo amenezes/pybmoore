@@ -35,13 +35,14 @@ tox:
 build:
 	@echo "> building package..."
 	python setup.py build_ext -i
-	python setup.py sdist bdist_wheel
+	python setup.py sdist
 
 clean:
 	@echo "> cleaning up the environment"
-	rm pybmoore/*.so
-	rm pybmoore/*.html
-	rm pybmoore/_bm.c
+	rm pybmoore/_bm.c | true
+	rm pybmoore/*.so | true
+	rm pybmoore/*.html | true
+	rm dist/*.tar.gz | true
 
 about:
 	@echo "> pybmoore [$(VERSION)]"
@@ -50,7 +51,7 @@ about:
 	@echo "make tests        - Run: tests."
 	@echo "make ci           - Runs: [lint > tests]"
 	@echo "make tox          - Runs tox."
-	@echo "make build        - Build package."
+	@echo "make build        - Build package [flag available: USE_CYTHON=1]."
 	@echo "make install-deps - Install development dependencies."
 	@echo "make clean        - Cleans the environment for a new build."
 	@echo ""
