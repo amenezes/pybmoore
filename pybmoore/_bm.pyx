@@ -1,6 +1,3 @@
-from collections import deque
-from typing import Dict, List, Tuple
-
 import cython
 
 from ._bm cimport calc_offset, term_index
@@ -22,7 +19,7 @@ cdef bint flag(int term_index, str suffix_char, str pattern_char):
     return 1
 
 
-def search(pattern: str, source: str) -> List[Tuple[int, int]]:
+cpdef search(pattern: str, source: str):
     pattern_len: cython.int = len(pattern)
     source_len: cython.int = len(source)
     good_suffix = suffix_shift(pattern)
@@ -49,27 +46,27 @@ def search(pattern: str, source: str) -> List[Tuple[int, int]]:
     return r
 
 
-def bad_char_shift(pattern: str) -> Dict[str, int]:
+cdef bad_char_shift(str pattern):
     pattern_len: cython.int = len(pattern) - 1
     return {pattern[i]: (pattern_len - i) for i in range(pattern_len)}
 
 
-def suffix_shift(pattern: str) -> Dict:
+cdef suffix_shift(str pattern):
     pattern_len: cython.int = len(pattern)
     skip_list = {}
-    _buffer: deque = deque()
-    for badchar in pattern[::-1]:
+    _buffer = ""
+    for badchar in reversed(pattern):
         skip_list[len(_buffer)] = suffix_position(
             badchar, _buffer, pattern, pattern_len
         )
 
-        _buffer.appendleft(badchar)
+        _buffer = f"{_buffer}{badchar}"
     return skip_list
 
 
-def suffix_position(badchar: str, suffix: deque, pattern: str, pattern_len: int) -> int:
+cdef int suffix_position(str badchar, str suffix, str pattern, int pattern_len):
     suffix_len: cython.int = len(suffix)
-    for offset in range(1, pattern_len + 1)[::-1]:
+    for offset in reversed(range(1, pattern_len + 1)):
         flag_active: cython.bint = 1
         tindex = term_index(offset, suffix_len)
         for suffix_index in range(suffix_len):

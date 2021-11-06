@@ -16,10 +16,6 @@ import pybmoore
             "tests/data/br_constitution.txt",
             ["Supremo Tribunal Federal", "Emenda Constitucional"],
         ),
-        (
-            "tests/data/us_constitution.txt",
-            ["freedom", "Congress"],
-        ),
     ],
 )
 def test_search_multiple_terms(filename, terms, benchmark):
@@ -29,12 +25,10 @@ def test_search_multiple_terms(filename, terms, benchmark):
 @pytest.mark.parametrize(
     "filename,term",
     [
-        ("tests/data/br_constitution.txt", "Deus"),
         ("tests/data/br_constitution.txt", "Lei nº"),
-        ("tests/data/br_constitution.txt", "Brasil"),
-        ("tests/data/us_constitution.txt", "Section"),
-        ("tests/data/us_constitution.txt", "freedom"),
+        ("tests/data/br_constitution.txt", "Supremo Tribunal Federal"),
         ("tests/data/us_constitution.txt", "Congress"),
+        ("tests/data/us_constitution.txt", "Congress of the United States"),
     ],
 )
 def test_search_single_term(filename, term, benchmark):
@@ -48,12 +42,8 @@ def test_search_single_term(filename, term, benchmark):
         ("algorithm"),
         ("string-searching"),
         ("19"),
-        ("constant factor"),
         ("The Boyer–Moore"),
-        ("string-search"),
-        ("computer science,"),
         ("algorithm preprocess"),
-        ("Wojciech Rytter"),
     ],
 )
 def test_search(pattern, benchmark):

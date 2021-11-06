@@ -5,6 +5,7 @@ import pytest
 import pybmoore
 
 
+@pytest.mark.skip
 @pytest.mark.parametrize(
     "pattern, expected",
     [
@@ -20,6 +21,7 @@ def test_bad_char_shift(pattern, expected):
     assert pybmoore._bm.bad_char_shift(pattern) == expected
 
 
+@pytest.mark.skip
 @pytest.mark.parametrize(
     "pattern, expected",
     [
@@ -47,6 +49,7 @@ def test_suffix_shift(pattern, expected):
     assert pybmoore._bm.suffix_shift(pattern) == expected
 
 
+@pytest.mark.skip
 @pytest.mark.parametrize(
     "badchar, suffix, pattern, expected",
     [
@@ -100,9 +103,11 @@ def test_search(pattern, expected):
         ("tests/data/br_constitution.txt", "Lei nº", 49),
         ("tests/data/br_constitution.txt", "Brasil", 41),
         ("tests/data/br_constitution.txt", "§ 1º", 293),
+        ("tests/data/br_constitution.txt", "Supremo Tribunal Federal", 62),
         ("tests/data/us_constitution.txt", "Section", 56),
         ("tests/data/us_constitution.txt", "freedom", 1),
         ("tests/data/us_constitution.txt", "Congress", 60),
+        ("tests/data/us_constitution.txt", "Congress of the United States", 1),
     ],
 )
 def test_search_with_large_text(filename, term, expected):
