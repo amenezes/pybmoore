@@ -1,9 +1,10 @@
+mypy
 flake8
-pytest
-pytest-cov
 isort
 black
-mypy
+pytest
+pytest-cov
+pytest-benchmark
 tox
 codecov
 safety
