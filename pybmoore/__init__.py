@@ -1,4 +1,3 @@
-from .__version__ import __version__
 from ._boyer_moore import search
 
 try:
@@ -6,5 +5,5 @@ try:
 except ModuleNotFoundError:
     raise RuntimeError("Failed to load _bm module.")
 
-
+__version__ = "1.2.1"
 __all__ = ["search", "__version__"]

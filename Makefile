@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := about
-VERSION := $(shell cat pybmoore/__version__.py | cut -d'"' -f 2)
+VERSION := $(shell cat pybmoore/__init__.py | grep '__version__ =' | cut -d'"' -f 2)
 USE_CYTHON := 1
 
 lint:
@@ -24,39 +24,6 @@ tests:
 	@echo "> unittest"
 	python -m pytest --durations=5 -vv --no-cov-on-fail --color=yes --cov-report xml --cov-report term --cov=pybmoore tests
 
-install-deps:
-	@echo "> installing dependencies..."
-	pip install -r requirements-dev.txt
-
-tox:
-	@echo "> running tox..."
-	tox -r -p all
-
-build:
-	@echo "> building package..."
-	python setup.py build_ext -i
-	python setup.py sdist
-
-clean:
-	@echo "> cleaning up the environment"
-	rm pybmoore/_bm.c | true
-	rm pybmoore/*.so | true
-	rm pybmoore/*.html | true
-	rm dist/*.tar.gz | true
-
-about:
-	@echo "> pybmoore [$(VERSION)]"
-	@echo ""
-	@echo "make lint         - Runs: [isort > black > flake8 > mypy]"
-	@echo "make tests        - Run: tests."
-	@echo "make ci           - Runs: [lint > tests]"
-	@echo "make tox          - Runs tox."
-	@echo "make build        - Build package [flag available: USE_CYTHON=1]."
-	@echo "make install-deps - Install development dependencies."
-	@echo "make clean        - Cleans the environment for a new build."
-	@echo ""
-	@echo "mailto: alexandre.fmenezes@gmail.com"
-
 ci: lint tests
 ifeq ($(GITHUB_HEAD_REF), false)
 	@echo "> download CI dependencies"
@@ -68,6 +35,38 @@ ifeq ($(GITHUB_HEAD_REF), false)
 	./cc-test-reporter upload-coverage -i codeclimate.json -r $$CC_TEST_REPORTER_ID
 endif
 
-all: install-deps ci build
+tox:
+	@echo "> running tox..."
+	tox -r -p all
 
-.PHONY: lint tests ci tox build install-deps clean all
+build:
+	@echo "> building package..."
+	python setup.py build_ext -i
+	python setup.py sdist
+	@echo "OK"
+
+clean:
+	@echo "> cleaning up the environment"
+	@rm pybmoore/*.so | true
+	@rm pybmoore/*.html | true
+	@rm dist/*.tar.gz | true
+ifeq ($(FORCE), true)
+	@rm pybmoore/_bm.c | true
+endif
+	@echo "OK"
+
+about:
+	@echo "> pybmoore [$(VERSION)]"
+	@echo ""
+	@echo "make lint         - Runs: [isort > black > flake8 > mypy]"
+	@echo "make tests        - Run: tests."
+	@echo "make ci           - Runs: [lint > tests]"
+	@echo "make tox          - Runs tox."
+	@echo "make clean        - Cleans the environment for a new build."
+	@echo "make build        - Build package [flag available: USE_CYTHON=1]."
+	@echo ""
+	@echo "mailto: alexandre.fmenezes@gmail.com"
+
+all: build ci tox
+
+.PHONY: lint tests ci tox clean build all

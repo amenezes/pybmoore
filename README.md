@@ -16,6 +16,8 @@ Install and update using pip:
 pip install pybmoore
 ````
 
+> notice: `gcc` must be available on the system.
+
 ## Usage
 
 ### Single term
@@ -29,6 +31,8 @@ TEXT = "The Boyer–Moore string-search algorithm is an efficient string-searchi
 
 matches = pybmoore.search('string', TEXT)
 print(f"Occurrences: {len(matches)}")
+# output: Occurrences: 3
+
 print(matches)
 # output: [(16, 22), (56, 62), (128, 134)]
 
@@ -36,7 +40,7 @@ for x, y in matches:
     print(f"({x},{y}) - {TEXT[x:y]}")
 ```
 
-> notice: this implemenation it's case sensitive.
+> notice: search method it's case sensitive.
 
 
 ```python
@@ -68,9 +72,9 @@ print(matches)
 To build **pybmoore** locally first install `requirements-dev.txt` dependencies and run:
 
 ```bash
-make build USE_CYTHON=1
-# or
-# make build
+make build # without Cython
+
+make build USE_CYTHON=1 # with Cython
 ```
 
 Type `make` in the command line to see all available targets.
