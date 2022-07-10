@@ -107,5 +107,4 @@ venv.bak/
 .vscode
 .idea/
 *.html
-pybmoore/_bm.c
 wheelhouse/

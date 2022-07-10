@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := about
 VERSION := $(shell cat pybmoore/__init__.py | grep '__version__ =' | cut -d'"' -f 2)
-USE_CYTHON := 1
+USE_CYTHON := false
 
 lint:
 ifeq ($(SKIP_STYLE), )
@@ -62,8 +62,8 @@ about:
 	@echo "make tests        - Run: tests."
 	@echo "make ci           - Runs: [lint > tests]"
 	@echo "make tox          - Runs tox."
-	@echo "make clean        - Cleans the environment for a new build."
-	@echo "make build        - Build package [flag available: USE_CYTHON=1]."
+	@echo "make clean        - Cleans the environment for a new build [flag available, default FORCE=false]."
+	@echo "make build        - Build package [flag available, default USE_CYTHON=false]."
 	@echo ""
 	@echo "mailto: alexandre.fmenezes@gmail.com"
 
