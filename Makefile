@@ -6,8 +6,8 @@ lint:
 ifeq ($(SKIP_STYLE), )
 	@echo "> running isort..."
 	isort setup.py
-	isort pybmoore/
-	isort tests/
+	isort pybmoore
+	isort tests
 	@echo "> running black..."
 	black setup.py
 	black pybmoore
@@ -47,6 +47,7 @@ build:
 
 clean:
 	@echo "> cleaning up the environment"
+	@rm pybmoore/_bm.c | true
 	@rm pybmoore/*.so | true
 	@rm pybmoore/*.html | true
 	@rm dist/*.tar.gz | true

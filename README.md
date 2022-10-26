@@ -77,6 +77,8 @@ make build # without Cython
 make build USE_CYTHON=1 # with Cython
 ```
 
+> in some cases it's necesary run `make clean` before `make build`.
+
 Type `make` in the command line to see all available targets.
 
 ## Links
