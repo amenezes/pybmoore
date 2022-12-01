@@ -27,7 +27,7 @@ tests:
 ci: lint tests
 ifeq ($(GITHUB_HEAD_REF), false)
 	@echo "> uploading coverage report..."
-	codecov --file coverage.xml -t $$CODECOV_TOKEN
+	codecov -f coverage.xml -t $$CODECOV_TOKEN
 endif
 
 tox:
