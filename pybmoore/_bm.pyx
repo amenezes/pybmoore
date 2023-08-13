@@ -13,7 +13,7 @@ cdef int term_index(offset: cython.int, suffix_len: cython.int):
     return (offset - suffix_len) - 1
 
 
-cdef bint flag(int term_index, str suffix_char, str pattern_char):
+cdef bint flag(int term_index, int suffix_char, int pattern_char):
     if (term_index > 0) or (suffix_char != pattern_char):
         return 0
     return 1
@@ -22,8 +22,8 @@ cdef bint flag(int term_index, str suffix_char, str pattern_char):
 cpdef search(pattern: str, source: str):
     pattern_len: cython.int = len(pattern)
     source_len: cython.int = len(source)
-    good_suffix = suffix_shift(pattern)
-    bad_char = bad_char_shift(pattern)
+    good_suffix = suffix_shift(pattern, pattern_len)
+    bad_char = bad_char_shift(pattern, pattern_len - 1)
     r = []
     i: cython.int = 0
     while i < ((source_len - pattern_len) + 1):
@@ -46,13 +46,11 @@ cpdef search(pattern: str, source: str):
     return r
 
 
-cdef bad_char_shift(str pattern):
-    pattern_len: cython.int = len(pattern) - 1
+cdef bad_char_shift(str pattern, int pattern_len):
     return {pattern[i]: (pattern_len - i) for i in range(pattern_len)}
 
 
-cdef suffix_shift(str pattern):
-    pattern_len: cython.int = len(pattern)
+cdef suffix_shift(str pattern, int pattern_len):
     skip_list = {}
     _buffer = ""
     for badchar in reversed(pattern):
@@ -72,9 +70,8 @@ cdef int suffix_position(str badchar, str suffix, str pattern, int pattern_len):
         for suffix_index in range(suffix_len):
             flag_active: cython.bint = flag(
                 tindex,
-                suffix[suffix_index],
-                pattern[tindex + suffix_index]
+                ord(suffix[suffix_index]),
+                ord(pattern[tindex + suffix_index])
             )
         if flag_active and (tindex <= 0 or pattern[tindex - 1] != badchar):
             return pattern_len - offset + 1
-

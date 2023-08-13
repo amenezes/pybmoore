@@ -13,6 +13,10 @@ ifeq ($(SKIP_STYLE), )
 	black pybmoore
 	black tests
 endif
+	@echo "> running bandit"
+	bandit -r -ll -ii -s B104 pybmoore
+	@echo "> running radon"
+	radon cc -s -n B pybmoore tests
 	@echo "> running flake8..."
 	flake8 setup.py
 	flake8 pybmoore

@@ -9,6 +9,8 @@ tox
 codecov
 safety
 Cython
+bandit
+radon
 # auditwheel
 # optional for asdf-vm
 # tox-asdf
