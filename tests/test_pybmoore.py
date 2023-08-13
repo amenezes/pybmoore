@@ -5,7 +5,7 @@ import pytest
 import pybmoore
 
 
-@pytest.mark.skip
+@pytest.mark.skip(reason="function tuned for use of Cython-specific cdef statement")
 @pytest.mark.parametrize(
     "pattern, expected",
     [
@@ -21,7 +21,7 @@ def test_bad_char_shift(pattern, expected):
     assert pybmoore._bm.bad_char_shift(pattern) == expected
 
 
-@pytest.mark.skip
+@pytest.mark.skip(reason="function tuned for use of Cython-specific cdef statement")
 @pytest.mark.parametrize(
     "pattern, expected",
     [
@@ -49,7 +49,7 @@ def test_suffix_shift(pattern, expected):
     assert pybmoore._bm.suffix_shift(pattern) == expected
 
 
-@pytest.mark.skip
+@pytest.mark.skip(reason="function tuned for use of Cython-specific cdef statement")
 @pytest.mark.parametrize(
     "badchar, suffix, pattern, expected",
     [
@@ -66,7 +66,7 @@ def test_suffix_position(badchar, suffix, pattern, expected):
 
 
 @pytest.mark.parametrize(
-    "pattern,expected",
+    "pattern, expected",
     [
         (
             "algorithm",
@@ -92,12 +92,12 @@ def test_suffix_position(badchar, suffix, pattern, expected):
     ],
 )
 def test_search(pattern, expected):
-    TEXT = "In computer science, the Boyer–Moore string-search algorithm is an efficient string-searching algorithm that is the standard benchmark for practical string-search literature.[1] It was developed by Robert S. Boyer and J Strother Moore in 1977.[2] The original paper contained static tables for computing the pattern shifts without an explanation of how to produce them. The algorithm for producing the tables was published in a follow-on paper; this paper contained errors which were later corrected by Wojciech Rytter in 1980.[3][4] The algorithm preprocesses the string being searched for (the pattern), but not the string being searched in (the text). It is thus well-suited for applications in which the pattern is much shorter than the text or where it persists across multiple searches. The Boyer–Moore algorithm uses information gathered during the preprocess step to skip sections of the text, resulting in a lower constant factor than many other string search algorithms. In general, the algorithm runs faster as the pattern length increases. The key features of the algorithm are to match on the tail of the pattern rather than the head, and to skip along the text in jumps of multiple characters rather than searching every single character in the text."
+    TEXT = """In computer science, the Boyer–Moore string-search algorithm is an efficient string-searching algorithm that is the standard benchmark for practical string-search literature.[1] It was developed by Robert S. Boyer and J Strother Moore in 1977.[2] The original paper contained static tables for computing the pattern shifts without an explanation of how to produce them. The algorithm for producing the tables was published in a follow-on paper; this paper contained errors which were later corrected by Wojciech Rytter in 1980.[3][4] The algorithm preprocesses the string being searched for (the pattern), but not the string being searched in (the text). It is thus well-suited for applications in which the pattern is much shorter than the text or where it persists across multiple searches. The Boyer–Moore algorithm uses information gathered during the preprocess step to skip sections of the text, resulting in a lower constant factor than many other string search algorithms. In general, the algorithm runs faster as the pattern length increases. The key features of the algorithm are to match on the tail of the pattern rather than the head, and to skip along the text in jumps of multiple characters rather than searching every single character in the text."""
     assert pybmoore.search(pattern, TEXT) == expected
 
 
 @pytest.mark.parametrize(
-    "filename,term,expected",
+    "filename, pattern, expected",
     [
         ("tests/data/br_constitution.txt", "Deus", 3),
         ("tests/data/br_constitution.txt", "Lei nº", 49),
@@ -110,12 +110,12 @@ def test_search(pattern, expected):
         ("tests/data/us_constitution.txt", "Congress of the United States", 1),
     ],
 )
-def test_search_with_large_text(filename, term, expected):
-    assert len(pybmoore.search(term, Path(filename).read_text())) == expected
+def test_search_with_large_text(filename, pattern, expected):
+    assert len(pybmoore.search(pattern, Path(filename).read_text())) == expected
 
 
 @pytest.mark.parametrize(
-    "filename,terms,expected",
+    "filename, patterns, expected",
     [
         (
             "tests/data/br_constitution.txt",
@@ -129,7 +129,58 @@ def test_search_with_large_text(filename, term, expected):
         ),
     ],
 )
-def test_search_multiple_terms(filename, terms, expected):
-    result = pybmoore.search(terms, Path(filename).read_text())
+def test_search_multiple_terms_using_list(filename, patterns, expected):
+    result = pybmoore.search(patterns, Path(filename).read_text())
     assert result.keys() == expected.keys()
-    assert sum([len(x) for x in result.values()]) == sum([x for x in expected.values()])
+    for pattern, expected_count in expected.items():
+        assert len(result[pattern]) == expected_count
+
+
+@pytest.mark.parametrize(
+    "filename, patterns, expected",
+    [
+        (
+            "tests/data/br_constitution.txt",
+            {"Deus", "Brasil"},
+            {"Deus": 3, "Brasil": 41},
+        ),
+        (
+            "tests/data/us_constitution.txt",
+            {"freedom", "Congress"},
+            {"freedom": 1, "Congress": 60},
+        ),
+    ],
+)
+def test_search_multiple_terms_using_set(filename, patterns, expected):
+    result = pybmoore.search(patterns, Path(filename).read_text())
+    assert result.keys() == expected.keys()
+    for pattern, expected_count in expected.items():
+        assert len(result[pattern]) == expected_count
+
+
+@pytest.mark.parametrize(
+    "filename, patterns, expected",
+    [
+        (
+            "tests/data/br_constitution.txt",
+            ("Deus", "Brasil"),
+            {"Deus": 3, "Brasil": 41},
+        ),
+        (
+            "tests/data/us_constitution.txt",
+            ("freedom", "Congress"),
+            {"freedom": 1, "Congress": 60},
+        ),
+    ],
+)
+def test_search_multiple_terms_using_tuple(filename, patterns, expected):
+    result = pybmoore.search(patterns, Path(filename).read_text())
+    assert result.keys() == expected.keys()
+    for pattern, expected_count in expected.items():
+        assert len(result[pattern]) == expected_count
+
+
+@pytest.mark.parametrize("pattern", [1.0, 1, None, True, {}])
+def test_pattern_not_supported(pattern):
+    with pytest.raises(NotImplementedError):
+        pybmoore.search(pattern, "Python/Cython Boyer-Moore string-search algorithm")
