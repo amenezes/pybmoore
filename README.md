@@ -89,6 +89,23 @@ pybmoore.search(('brute-force', 'Boyer-Moore'), TEXT)
 # output: {'brute-force': [(146, 157)], 'Boyer-Moore': [(4, 15), (214, 225)]}
 ```
 
+> Details
+
+To fetch various patterns, **pybmoore** internally uses a [ProcessPoolExecutor](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.ProcessPoolExecutor). For granular control of the pool, use the parameters listed in the module documentation. For example:
+
+```python
+import pybmoore
+
+
+TEXT = """The Boyer-Moore algorithm searches for occurrences of P in T by 
+performing explicit character comparisons at different alignments. Instead of a 
+brute-force search of all alignments (of which there are m − n + 1, Boyer-Moore 
+uses information gained by preprocessing P to skip as many alignments as possible.
+"""
+
+pybmoore.search(['brute-force', 'Boyer-Moore'], TEXT, max_workers=2)
+```
+
 ## Development
 
 To build **pybmoore** locally first install `requirements-dev.txt` dependencies and run:
