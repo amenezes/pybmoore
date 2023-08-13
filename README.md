@@ -27,14 +27,18 @@ The search method in the `pybmoore` module will return a list of tuples with all
 ```python
 import pybmoore
 
-TEXT = "The Boyer–Moore string-search algorithm is an efficient string-searching algorithm that is the standard benchmark for practical string-search literature."
+
+TEXT = """The Boyer–Moore string-search algorithm is 
+an efficient string-searching algorithm that is the 
+standard benchmark for practical string-search literature.
+"""
 
 matches = pybmoore.search('string', TEXT)
 print(f"Occurrences: {len(matches)}")
 # output: Occurrences: 3
 
 print(matches)
-# output: [(16, 22), (56, 62), (128, 134)]
+# output: [(16, 22), (57, 63), (130, 136)]
 
 for x, y in matches:
     print(f"({x},{y}) - {TEXT[x:y]}")
@@ -46,7 +50,12 @@ for x, y in matches:
 ```python
 import pybmoore
 
-TEXT = "The algorithm preprocesses the string being searched for (the pattern), but not the string being searched in (the text). It is thus well-suited for applications in which the pattern is much shorter than the text or where it persists across multiple searches."
+
+TEXT = """The algorithm preprocesses the string being searched for (the pattern), 
+but not the string being searched in (the text). It is thus well-suited for 
+applications in which the pattern is much shorter than the text or where it 
+persists across multiple searches.
+"""
 
 pybmoore.search('algorithm', TEXT)
 # output: [(4, 13)]
@@ -60,11 +69,24 @@ pybmoore.search('Algorithm', TEXT)
 ```python
 import pybmoore
 
-TEXT = "The Boyer-Moore algorithm searches for occurrences of P in T by performing explicit character comparisons at different alignments. Instead of a brute-force search of all alignments (of which there are m − n + 1, Boyer-Moore uses information gained by preprocessing P to skip as many alignments as possible."
 
+TEXT = """The Boyer-Moore algorithm searches for occurrences of P in T by 
+performing explicit character comparisons at different alignments. Instead of a 
+brute-force search of all alignments (of which there are m − n + 1, Boyer-Moore 
+uses information gained by preprocessing P to skip as many alignments as possible.
+"""
+
+# Using a list of patterns
 pybmoore.search(['brute-force', 'Boyer-Moore'], TEXT)
-print(matches)
-# output: {'brute-force': [(144, 155)], 'Boyer-Moore': [(4, 15), (212, 223)]}
+# output: {'brute-force': [(146, 157)], 'Boyer-Moore': [(4, 15), (214, 225)]}
+
+# Using a set of patterns
+pybmoore.search({'brute-force', 'Boyer-Moore'}, TEXT)
+# output: {'brute-force': [(146, 157)], 'Boyer-Moore': [(4, 15), (214, 225)]}
+
+# Using a tuple of patterns
+pybmoore.search(('brute-force', 'Boyer-Moore'), TEXT)
+# output: {'brute-force': [(146, 157)], 'Boyer-Moore': [(4, 15), (214, 225)]}
 ```
 
 ## Development
