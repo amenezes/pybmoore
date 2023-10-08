@@ -51,6 +51,8 @@ def search(
 
 @search.register(str)
 def _(pattern, source, *args, **kwargs):
+    if len(pattern) == 0:
+        return []
     return _bm.search(pattern, source)
 
 
