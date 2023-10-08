@@ -5,7 +5,6 @@ black
 pytest
 pytest-cov
 pytest-benchmark
-tox
 codecov
 safety
 Cython
