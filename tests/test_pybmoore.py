@@ -89,7 +89,7 @@ def test_suffix_position(badchar, suffix, pattern, expected):
         ("computer science,", [(3, 20)]),
         ("algorithm preprocess", [(538, 558)]),
         ("Wojciech Rytter", [(503, 518)]),
-        ("", [])
+        ("", []),
     ],
 )
 def test_search(pattern, expected):

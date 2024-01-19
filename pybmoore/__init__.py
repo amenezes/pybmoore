@@ -5,5 +5,5 @@ try:
 except ModuleNotFoundError:
     raise RuntimeError("Failed to load _bm module.")
 
-__version__ = "1.5.0"
+__version__ = "1.6.0"
 __all__ = ["search", "__version__"]

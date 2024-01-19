@@ -67,7 +67,7 @@ def _(pattern, source, *args, **kwargs):
 
 
 @search.register(tuple)
-def _(pattern, source, *args, **kwargs):  # type: ignore
+def _(pattern, source, *args, **kwargs):
     resp = {}
     with ProcessPoolExecutor(*args, **kwargs) as executor:
         futures = {
