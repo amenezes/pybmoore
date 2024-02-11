@@ -1,3 +1,4 @@
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 from pathlib import Path
 
 import pytest
@@ -116,66 +117,108 @@ def test_search_with_large_text(filename, pattern, expected):
 
 
 @pytest.mark.parametrize(
-    "filename, patterns, expected",
+    "filename, patterns, executor, expected",
     [
         (
             "tests/data/br_constitution.txt",
             ["Deus", "Brasil"],
+            ThreadPoolExecutor,
+            {"Deus": 3, "Brasil": 41},
+        ),
+        (
+            "tests/data/br_constitution.txt",
+            ["Deus", "Brasil"],
+            ProcessPoolExecutor,
             {"Deus": 3, "Brasil": 41},
         ),
         (
             "tests/data/us_constitution.txt",
             ["freedom", "Congress"],
+            ThreadPoolExecutor,
+            {"freedom": 1, "Congress": 60},
+        ),
+        (
+            "tests/data/us_constitution.txt",
+            ["freedom", "Congress"],
+            ProcessPoolExecutor,
             {"freedom": 1, "Congress": 60},
         ),
     ],
 )
-def test_search_multiple_terms_using_list(filename, patterns, expected):
-    result = pybmoore.search(patterns, Path(filename).read_text())
+def test_search_multiple_terms_using_list(filename, patterns, executor, expected):
+    result = pybmoore.search_m(patterns, Path(filename).read_text(), executor)
     assert result.keys() == expected.keys()
     for pattern, expected_count in expected.items():
         assert len(result[pattern]) == expected_count
 
 
 @pytest.mark.parametrize(
-    "filename, patterns, expected",
+    "filename, patterns, executor, expected",
     [
         (
             "tests/data/br_constitution.txt",
             {"Deus", "Brasil"},
+            ThreadPoolExecutor,
+            {"Deus": 3, "Brasil": 41},
+        ),
+        (
+            "tests/data/br_constitution.txt",
+            {"Deus", "Brasil"},
+            ProcessPoolExecutor,
             {"Deus": 3, "Brasil": 41},
         ),
         (
             "tests/data/us_constitution.txt",
             {"freedom", "Congress"},
+            ThreadPoolExecutor,
+            {"freedom": 1, "Congress": 60},
+        ),
+        (
+            "tests/data/us_constitution.txt",
+            {"freedom", "Congress"},
+            ProcessPoolExecutor,
             {"freedom": 1, "Congress": 60},
         ),
     ],
 )
-def test_search_multiple_terms_using_set(filename, patterns, expected):
-    result = pybmoore.search(patterns, Path(filename).read_text())
+def test_search_multiple_terms_using_set(filename, patterns, executor, expected):
+    result = pybmoore.search_m(patterns, Path(filename).read_text(), executor)
     assert result.keys() == expected.keys()
     for pattern, expected_count in expected.items():
         assert len(result[pattern]) == expected_count
 
 
 @pytest.mark.parametrize(
-    "filename, patterns, expected",
+    "filename, patterns, executor, expected",
     [
         (
             "tests/data/br_constitution.txt",
             ("Deus", "Brasil"),
+            ThreadPoolExecutor,
+            {"Deus": 3, "Brasil": 41},
+        ),
+        (
+            "tests/data/br_constitution.txt",
+            ("Deus", "Brasil"),
+            ProcessPoolExecutor,
             {"Deus": 3, "Brasil": 41},
         ),
         (
             "tests/data/us_constitution.txt",
             ("freedom", "Congress"),
+            ThreadPoolExecutor,
+            {"freedom": 1, "Congress": 60},
+        ),
+        (
+            "tests/data/us_constitution.txt",
+            ("freedom", "Congress"),
+            ProcessPoolExecutor,
             {"freedom": 1, "Congress": 60},
         ),
     ],
 )
-def test_search_multiple_terms_using_tuple(filename, patterns, expected):
-    result = pybmoore.search(patterns, Path(filename).read_text())
+def test_search_multiple_terms_using_tuple(filename, patterns, executor, expected):
+    result = pybmoore.search_m(patterns, Path(filename).read_text(), executor)
     assert result.keys() == expected.keys()
     for pattern, expected_count in expected.items():
         assert len(result[pattern]) == expected_count

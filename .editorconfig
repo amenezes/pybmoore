@@ -6,7 +6,7 @@ end_of_line = lf
 charset = utf-8
 indent_size = 2
 
-[*.py]
+[*.{py,pyx}]
 indent_style = space
 indent_size = 4
 

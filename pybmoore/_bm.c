@@ -3288,7 +3288,7 @@ static PyObject *__pyx_f_8pybmoore_3_bm_suffix_shift(PyObject *__pyx_v_pattern, 
  *         skip_list[len(_buffer)] = suffix_position(
  *             badchar, _buffer, pattern, pattern_len             # <<<<<<<<<<<<<<
  *         )
- * 
+ *         _buffer = f"{_buffer}{badchar}"
  */
     if (!(likely(PyUnicode_CheckExact(__pyx_v_badchar))||((__pyx_v_badchar) == Py_None) || __Pyx_RaiseUnexpectedTypeError("unicode", __pyx_v_badchar))) __PYX_ERR(0, 58, __pyx_L1_error)
 
@@ -3309,16 +3309,16 @@ static PyObject *__pyx_f_8pybmoore_3_bm_suffix_shift(PyObject *__pyx_v_pattern, 
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pybmoore/_bm.pyx":61
+    /* "pybmoore/_bm.pyx":60
+ *             badchar, _buffer, pattern, pattern_len
  *         )
- * 
  *         _buffer = f"{_buffer}{badchar}"             # <<<<<<<<<<<<<<
  *     return skip_list
  * 
  */
-    __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_v_badchar, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_v_badchar, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_10 = __Pyx_PyUnicode_Concat(__pyx_v__buffer, __pyx_t_1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 61, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyUnicode_Concat(__pyx_v__buffer, __pyx_t_1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF_SET(__pyx_v__buffer, ((PyObject*)__pyx_t_10));
@@ -3326,8 +3326,8 @@ static PyObject *__pyx_f_8pybmoore_3_bm_suffix_shift(PyObject *__pyx_v_pattern, 
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pybmoore/_bm.pyx":62
- * 
+  /* "pybmoore/_bm.pyx":61
+ *         )
  *         _buffer = f"{_buffer}{badchar}"
  *     return skip_list             # <<<<<<<<<<<<<<
  * 
@@ -3362,7 +3362,7 @@ static PyObject *__pyx_f_8pybmoore_3_bm_suffix_shift(PyObject *__pyx_v_pattern, 
   return __pyx_r;
 }
 
-/* "pybmoore/_bm.pyx":65
+/* "pybmoore/_bm.pyx":64
  * 
  * 
  * cdef int suffix_position(str badchar, str suffix, str pattern, int pattern_len):             # <<<<<<<<<<<<<<
@@ -3397,7 +3397,7 @@ static int __pyx_f_8pybmoore_3_bm_suffix_position(PyObject *__pyx_v_badchar, PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("suffix_position", 1);
 
-  /* "pybmoore/_bm.pyx":66
+  /* "pybmoore/_bm.pyx":65
  * 
  * cdef int suffix_position(str badchar, str suffix, str pattern, int pattern_len):
  *     suffix_len: cython.int = len(suffix)             # <<<<<<<<<<<<<<
@@ -3406,32 +3406,32 @@ static int __pyx_f_8pybmoore_3_bm_suffix_position(PyObject *__pyx_v_badchar, PyO
  */
   if (unlikely(__pyx_v_suffix == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 66, __pyx_L1_error)
+    __PYX_ERR(0, 65, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyUnicode_GET_LENGTH(__pyx_v_suffix); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyUnicode_GET_LENGTH(__pyx_v_suffix); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 65, __pyx_L1_error)
   __pyx_v_suffix_len = __pyx_t_1;
 
-  /* "pybmoore/_bm.pyx":67
+  /* "pybmoore/_bm.pyx":66
  * cdef int suffix_position(str badchar, str suffix, str pattern, int pattern_len):
  *     suffix_len: cython.int = len(suffix)
  *     for offset in reversed(range(1, pattern_len + 1)):             # <<<<<<<<<<<<<<
  *         flag_active: cython.bint = 1
  *         tindex = term_index(offset, suffix_len)
  */
-  __pyx_t_2 = __Pyx_PyInt_From_long((__pyx_v_pattern_len + 1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_long((__pyx_v_pattern_len + 1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(__pyx_int_1);
   __Pyx_GIVEREF(__pyx_int_1);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_int_1)) __PYX_ERR(0, 67, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_int_1)) __PYX_ERR(0, 66, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_2);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_reversed, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_reversed, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
@@ -3439,9 +3439,9 @@ static int __pyx_f_8pybmoore_3_bm_suffix_position(PyObject *__pyx_v_badchar, PyO
     __pyx_t_1 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_1 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __pyx_t_1 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 66, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   for (;;) {
@@ -3450,28 +3450,28 @@ static int __pyx_f_8pybmoore_3_bm_suffix_position(PyObject *__pyx_v_badchar, PyO
         {
           Py_ssize_t __pyx_temp = __Pyx_PyList_GET_SIZE(__pyx_t_2);
           #if !CYTHON_ASSUME_SAFE_MACROS
-          if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 67, __pyx_L1_error)
+          if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 66, __pyx_L1_error)
           #endif
           if (__pyx_t_1 >= __pyx_temp) break;
         }
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_1); __Pyx_INCREF(__pyx_t_3); __pyx_t_1++; if (unlikely((0 < 0))) __PYX_ERR(0, 67, __pyx_L1_error)
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_1); __Pyx_INCREF(__pyx_t_3); __pyx_t_1++; if (unlikely((0 < 0))) __PYX_ERR(0, 66, __pyx_L1_error)
         #else
-        __pyx_t_3 = __Pyx_PySequence_ITEM(__pyx_t_2, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PySequence_ITEM(__pyx_t_2, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 66, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       } else {
         {
           Py_ssize_t __pyx_temp = __Pyx_PyTuple_GET_SIZE(__pyx_t_2);
           #if !CYTHON_ASSUME_SAFE_MACROS
-          if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 67, __pyx_L1_error)
+          if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 66, __pyx_L1_error)
           #endif
           if (__pyx_t_1 >= __pyx_temp) break;
         }
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_1); __Pyx_INCREF(__pyx_t_3); __pyx_t_1++; if (unlikely((0 < 0))) __PYX_ERR(0, 67, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_1); __Pyx_INCREF(__pyx_t_3); __pyx_t_1++; if (unlikely((0 < 0))) __PYX_ERR(0, 66, __pyx_L1_error)
         #else
-        __pyx_t_3 = __Pyx_PySequence_ITEM(__pyx_t_2, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PySequence_ITEM(__pyx_t_2, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 66, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       }
@@ -3481,7 +3481,7 @@ static int __pyx_f_8pybmoore_3_bm_suffix_position(PyObject *__pyx_v_badchar, PyO
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 67, __pyx_L1_error)
+          else __PYX_ERR(0, 66, __pyx_L1_error)
         }
         break;
       }
@@ -3490,7 +3490,7 @@ static int __pyx_f_8pybmoore_3_bm_suffix_position(PyObject *__pyx_v_badchar, PyO
     __Pyx_XDECREF_SET(__pyx_v_offset, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "pybmoore/_bm.pyx":68
+    /* "pybmoore/_bm.pyx":67
  *     suffix_len: cython.int = len(suffix)
  *     for offset in reversed(range(1, pattern_len + 1)):
  *         flag_active: cython.bint = 1             # <<<<<<<<<<<<<<
@@ -3499,30 +3499,30 @@ static int __pyx_f_8pybmoore_3_bm_suffix_position(PyObject *__pyx_v_badchar, PyO
  */
     __pyx_v_flag_active = 1;
 
-    /* "pybmoore/_bm.pyx":69
+    /* "pybmoore/_bm.pyx":68
  *     for offset in reversed(range(1, pattern_len + 1)):
  *         flag_active: cython.bint = 1
  *         tindex = term_index(offset, suffix_len)             # <<<<<<<<<<<<<<
  *         for suffix_index in range(suffix_len):
  *             flag_active: cython.bint = flag(
  */
-    __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_v_offset); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 69, __pyx_L1_error)
-    __pyx_t_6 = __pyx_f_8pybmoore_3_bm_term_index(__pyx_t_5, __pyx_v_suffix_len); if (unlikely(__pyx_t_6 == ((int)-1) && PyErr_Occurred())) __PYX_ERR(0, 69, __pyx_L1_error)
-    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_v_offset); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_6 = __pyx_f_8pybmoore_3_bm_term_index(__pyx_t_5, __pyx_v_suffix_len); if (unlikely(__pyx_t_6 == ((int)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 68, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_XDECREF_SET(__pyx_v_tindex, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "pybmoore/_bm.pyx":70
+    /* "pybmoore/_bm.pyx":69
  *         flag_active: cython.bint = 1
  *         tindex = term_index(offset, suffix_len)
  *         for suffix_index in range(suffix_len):             # <<<<<<<<<<<<<<
  *             flag_active: cython.bint = flag(
  *                 tindex,
  */
-    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_suffix_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 70, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_suffix_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 69, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 70, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 69, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     if (likely(PyList_CheckExact(__pyx_t_7)) || PyTuple_CheckExact(__pyx_t_7)) {
@@ -3530,9 +3530,9 @@ static int __pyx_f_8pybmoore_3_bm_suffix_position(PyObject *__pyx_v_badchar, PyO
       __pyx_t_8 = 0;
       __pyx_t_9 = NULL;
     } else {
-      __pyx_t_8 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 70, __pyx_L1_error)
+      __pyx_t_8 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 69, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_9 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 70, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 69, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     for (;;) {
@@ -3541,28 +3541,28 @@ static int __pyx_f_8pybmoore_3_bm_suffix_position(PyObject *__pyx_v_badchar, PyO
           {
             Py_ssize_t __pyx_temp = __Pyx_PyList_GET_SIZE(__pyx_t_3);
             #if !CYTHON_ASSUME_SAFE_MACROS
-            if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 70, __pyx_L1_error)
+            if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 69, __pyx_L1_error)
             #endif
             if (__pyx_t_8 >= __pyx_temp) break;
           }
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_7 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_8); __Pyx_INCREF(__pyx_t_7); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 70, __pyx_L1_error)
+          __pyx_t_7 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_8); __Pyx_INCREF(__pyx_t_7); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 69, __pyx_L1_error)
           #else
-          __pyx_t_7 = __Pyx_PySequence_ITEM(__pyx_t_3, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 70, __pyx_L1_error)
+          __pyx_t_7 = __Pyx_PySequence_ITEM(__pyx_t_3, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 69, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
           #endif
         } else {
           {
             Py_ssize_t __pyx_temp = __Pyx_PyTuple_GET_SIZE(__pyx_t_3);
             #if !CYTHON_ASSUME_SAFE_MACROS
-            if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 70, __pyx_L1_error)
+            if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 69, __pyx_L1_error)
             #endif
             if (__pyx_t_8 >= __pyx_temp) break;
           }
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_8); __Pyx_INCREF(__pyx_t_7); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 70, __pyx_L1_error)
+          __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_8); __Pyx_INCREF(__pyx_t_7); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 69, __pyx_L1_error)
           #else
-          __pyx_t_7 = __Pyx_PySequence_ITEM(__pyx_t_3, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 70, __pyx_L1_error)
+          __pyx_t_7 = __Pyx_PySequence_ITEM(__pyx_t_3, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 69, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
           #endif
         }
@@ -3572,7 +3572,7 @@ static int __pyx_f_8pybmoore_3_bm_suffix_position(PyObject *__pyx_v_badchar, PyO
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 70, __pyx_L1_error)
+            else __PYX_ERR(0, 69, __pyx_L1_error)
           }
           break;
         }
@@ -3581,53 +3581,53 @@ static int __pyx_f_8pybmoore_3_bm_suffix_position(PyObject *__pyx_v_badchar, PyO
       __Pyx_XDECREF_SET(__pyx_v_suffix_index, __pyx_t_7);
       __pyx_t_7 = 0;
 
-      /* "pybmoore/_bm.pyx":72
+      /* "pybmoore/_bm.pyx":71
  *         for suffix_index in range(suffix_len):
  *             flag_active: cython.bint = flag(
  *                 tindex,             # <<<<<<<<<<<<<<
  *                 ord(suffix[suffix_index]),
  *                 ord(pattern[tindex + suffix_index])
  */
-      __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_tindex); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 72, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_tindex); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 71, __pyx_L1_error)
 
-      /* "pybmoore/_bm.pyx":73
+      /* "pybmoore/_bm.pyx":72
  *             flag_active: cython.bint = flag(
  *                 tindex,
  *                 ord(suffix[suffix_index]),             # <<<<<<<<<<<<<<
  *                 ord(pattern[tindex + suffix_index])
  *             )
  */
-      __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_v_suffix, __pyx_v_suffix_index); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 73, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_v_suffix, __pyx_v_suffix_index); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 72, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_10 = __Pyx_PyObject_Ord(__pyx_t_7); if (unlikely(__pyx_t_10 == ((long)(long)(Py_UCS4)-1))) __PYX_ERR(0, 73, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_Ord(__pyx_t_7); if (unlikely(__pyx_t_10 == ((long)(long)(Py_UCS4)-1))) __PYX_ERR(0, 72, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "pybmoore/_bm.pyx":74
+      /* "pybmoore/_bm.pyx":73
  *                 tindex,
  *                 ord(suffix[suffix_index]),
  *                 ord(pattern[tindex + suffix_index])             # <<<<<<<<<<<<<<
  *             )
  *         if flag_active and (tindex <= 0 or pattern[tindex - 1] != badchar):
  */
-      __pyx_t_7 = PyNumber_Add(__pyx_v_tindex, __pyx_v_suffix_index); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 74, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_Add(__pyx_v_tindex, __pyx_v_suffix_index); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 73, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_v_pattern, __pyx_t_7); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 74, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_v_pattern, __pyx_t_7); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 73, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_12 = __Pyx_PyObject_Ord(__pyx_t_11); if (unlikely(__pyx_t_12 == ((long)(long)(Py_UCS4)-1))) __PYX_ERR(0, 74, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyObject_Ord(__pyx_t_11); if (unlikely(__pyx_t_12 == ((long)(long)(Py_UCS4)-1))) __PYX_ERR(0, 73, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-      /* "pybmoore/_bm.pyx":71
+      /* "pybmoore/_bm.pyx":70
  *         tindex = term_index(offset, suffix_len)
  *         for suffix_index in range(suffix_len):
  *             flag_active: cython.bint = flag(             # <<<<<<<<<<<<<<
  *                 tindex,
  *                 ord(suffix[suffix_index]),
  */
-      __pyx_t_13 = __pyx_f_8pybmoore_3_bm_flag(__pyx_t_6, __pyx_t_10, __pyx_t_12); if (unlikely(__pyx_t_13 == ((int)-1) && PyErr_Occurred())) __PYX_ERR(0, 71, __pyx_L1_error)
+      __pyx_t_13 = __pyx_f_8pybmoore_3_bm_flag(__pyx_t_6, __pyx_t_10, __pyx_t_12); if (unlikely(__pyx_t_13 == ((int)-1) && PyErr_Occurred())) __PYX_ERR(0, 70, __pyx_L1_error)
       __pyx_v_flag_active = __pyx_t_13;
 
-      /* "pybmoore/_bm.pyx":70
+      /* "pybmoore/_bm.pyx":69
  *         flag_active: cython.bint = 1
  *         tindex = term_index(offset, suffix_len)
  *         for suffix_index in range(suffix_len):             # <<<<<<<<<<<<<<
@@ -3637,7 +3637,7 @@ static int __pyx_f_8pybmoore_3_bm_suffix_position(PyObject *__pyx_v_badchar, PyO
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pybmoore/_bm.pyx":76
+    /* "pybmoore/_bm.pyx":75
  *                 ord(pattern[tindex + suffix_index])
  *             )
  *         if flag_active and (tindex <= 0 or pattern[tindex - 1] != badchar):             # <<<<<<<<<<<<<<
@@ -3648,45 +3648,45 @@ static int __pyx_f_8pybmoore_3_bm_suffix_position(PyObject *__pyx_v_badchar, PyO
       __pyx_t_13 = __pyx_v_flag_active;
       goto __pyx_L9_bool_binop_done;
     }
-    __pyx_t_3 = PyObject_RichCompare(__pyx_v_tindex, __pyx_int_0, Py_LE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 76, __pyx_L1_error)
-    __pyx_t_14 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely((__pyx_t_14 < 0))) __PYX_ERR(0, 76, __pyx_L1_error)
+    __pyx_t_3 = PyObject_RichCompare(__pyx_v_tindex, __pyx_int_0, Py_LE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L1_error)
+    __pyx_t_14 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely((__pyx_t_14 < 0))) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     if (!__pyx_t_14) {
     } else {
       __pyx_t_13 = __pyx_t_14;
       goto __pyx_L9_bool_binop_done;
     }
-    __pyx_t_3 = __Pyx_PyInt_SubtractObjC(__pyx_v_tindex, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 76, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_SubtractObjC(__pyx_v_tindex, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_v_pattern, __pyx_t_3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 76, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_v_pattern, __pyx_t_3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_14 = (__Pyx_PyUnicode_Equals(__pyx_t_11, __pyx_v_badchar, Py_NE)); if (unlikely((__pyx_t_14 < 0))) __PYX_ERR(0, 76, __pyx_L1_error)
+    __pyx_t_14 = (__Pyx_PyUnicode_Equals(__pyx_t_11, __pyx_v_badchar, Py_NE)); if (unlikely((__pyx_t_14 < 0))) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     __pyx_t_13 = __pyx_t_14;
     __pyx_L9_bool_binop_done:;
     if (__pyx_t_13) {
 
-      /* "pybmoore/_bm.pyx":77
+      /* "pybmoore/_bm.pyx":76
  *             )
  *         if flag_active and (tindex <= 0 or pattern[tindex - 1] != badchar):
  *             return pattern_len - offset + 1             # <<<<<<<<<<<<<<
  */
-      __pyx_t_11 = __Pyx_PyInt_From_int(__pyx_v_pattern_len); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 77, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyInt_From_int(__pyx_v_pattern_len); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 76, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
-      __pyx_t_3 = PyNumber_Subtract(__pyx_t_11, __pyx_v_offset); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 77, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Subtract(__pyx_t_11, __pyx_v_offset); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 76, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      __pyx_t_11 = __Pyx_PyInt_AddObjC(__pyx_t_3, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 77, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyInt_AddObjC(__pyx_t_3, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 76, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_t_11); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 77, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_t_11); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 76, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       __pyx_r = __pyx_t_6;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       goto __pyx_L0;
 
-      /* "pybmoore/_bm.pyx":76
+      /* "pybmoore/_bm.pyx":75
  *                 ord(pattern[tindex + suffix_index])
  *             )
  *         if flag_active and (tindex <= 0 or pattern[tindex - 1] != badchar):             # <<<<<<<<<<<<<<
@@ -3694,7 +3694,7 @@ static int __pyx_f_8pybmoore_3_bm_suffix_position(PyObject *__pyx_v_badchar, PyO
  */
     }
 
-    /* "pybmoore/_bm.pyx":67
+    /* "pybmoore/_bm.pyx":66
  * cdef int suffix_position(str badchar, str suffix, str pattern, int pattern_len):
  *     suffix_len: cython.int = len(suffix)
  *     for offset in reversed(range(1, pattern_len + 1)):             # <<<<<<<<<<<<<<
@@ -3704,7 +3704,7 @@ static int __pyx_f_8pybmoore_3_bm_suffix_position(PyObject *__pyx_v_badchar, PyO
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pybmoore/_bm.pyx":65
+  /* "pybmoore/_bm.pyx":64
  * 
  * 
  * cdef int suffix_position(str badchar, str suffix, str pattern, int pattern_len):             # <<<<<<<<<<<<<<
