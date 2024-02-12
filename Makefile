@@ -26,7 +26,7 @@ endif
 
 tests:
 	@echo "> unittest"
-	python -m pytest --durations=5 -vv --no-cov-on-fail --color=yes --cov-report xml --cov-report term --cov=pybmoore tests
+	python -m pytest --durations=10 -vv --no-cov-on-fail --color=yes --cov-report xml --cov-report term --cov=pybmoore tests
 
 ci: lint tests
 ifeq ($(GITHUB_HEAD_REF), false)
@@ -58,12 +58,12 @@ endif
 about:
 	@echo "> pybmoore [$(VERSION)]"
 	@echo ""
-	@echo "make lint         - Runs: [isort > black > flake8 > mypy]"
-	@echo "make tests        - Runs: [tests]"
-	@echo "make ci           - Runs: [lint > tests]"
-	@echo "make tox          - Runs: [tox]"
-	@echo "make clean        - Clean the environment for a new build [flag available, default FORCE=false]."
-	@echo "make build        - Build package [flag available, default USE_CYTHON=false]."
+	@echo "make lint   - Runs: [isort > black > flake8 > mypy]"
+	@echo "make tests  - Runs: [tests]"
+	@echo "make ci     - Runs: [lint > tests]"
+	@echo "make tox    - Runs: [tox]"
+	@echo "make clean  - Clean the environment for a new build [flag available, default FORCE=false]."
+	@echo "make build  - Build package [flag available, default USE_CYTHON=false]."
 	@echo ""
 	@echo "mailto: alexandre.fmenezes@gmail.com"
 

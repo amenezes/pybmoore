@@ -36,3 +36,5 @@ jobs:
       with:
         file: ./coverage.xml
         fail_ci_if_error: true
+    - name: Run pytest benchmark
+      run: pytest benchmark/test_pybmoore.py

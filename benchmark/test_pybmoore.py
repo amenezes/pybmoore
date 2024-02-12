@@ -1,4 +1,6 @@
 from pathlib import Path
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
+
 
 import pytest
 
@@ -6,20 +8,41 @@ import pybmoore
 
 
 @pytest.mark.parametrize(
-    "filename,terms",
+    "filename, terms, executor",
     [
         (
             "tests/data/br_constitution.txt",
             ["Deus", "Brasil"],
+            ThreadPoolExecutor
         ),
         (
             "tests/data/br_constitution.txt",
             ["Supremo Tribunal Federal", "Emenda Constitucional"],
+            ThreadPoolExecutor
         ),
     ],
 )
-def test_search_multiple_terms(filename, terms, benchmark):
-    benchmark(pybmoore.search, terms, Path(filename).read_text())
+def test_search_multiple_terms_thread_pool(filename, terms, executor, benchmark):
+    benchmark(pybmoore.search_m, terms, Path(filename).read_text(), executor)
+
+
+@pytest.mark.parametrize(
+    "filename, terms, executor",
+    [
+        (
+            "tests/data/br_constitution.txt",
+            ["Deus", "Brasil"],
+            ProcessPoolExecutor
+        ),
+        (
+            "tests/data/br_constitution.txt",
+            ["Supremo Tribunal Federal", "Emenda Constitucional"],
+            ProcessPoolExecutor
+        ),
+    ],
+)
+def test_search_multiple_terms_process_pool(filename, terms, executor, benchmark):
+    benchmark(pybmoore.search_m, terms, Path(filename).read_text(), executor)
 
 
 @pytest.mark.parametrize(

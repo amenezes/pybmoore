@@ -57,7 +57,6 @@ cdef suffix_shift(str pattern, int pattern_len):
         skip_list[len(_buffer)] = suffix_position(
             badchar, _buffer, pattern, pattern_len
         )
-
         _buffer = f"{_buffer}{badchar}"
     return skip_list
 

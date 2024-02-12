@@ -67,6 +67,8 @@ pybmoore.search('Algorithm', TEXT)
 ### Multiple terms
 
 ```python
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
+
 import pybmoore
 
 
@@ -77,34 +79,21 @@ uses information gained by preprocessing P to skip as many alignments as possibl
 """
 
 # Using a list of patterns
-pybmoore.search(['brute-force', 'Boyer-Moore'], TEXT)
+pybmoore.search_m(['brute-force', 'Boyer-Moore'], TEXT, ProcessPoolExecutor)
 # output: {'brute-force': [(146, 157)], 'Boyer-Moore': [(4, 15), (214, 225)]}
 
 # Using a set of patterns
-pybmoore.search({'brute-force', 'Boyer-Moore'}, TEXT)
+pybmoore.search_m({'brute-force', 'Boyer-Moore'}, TEXT, ThreadPoolExecutor)
 # output: {'brute-force': [(146, 157)], 'Boyer-Moore': [(4, 15), (214, 225)]}
 
 # Using a tuple of patterns
-pybmoore.search(('brute-force', 'Boyer-Moore'), TEXT)
+pybmoore.search_m(('brute-force', 'Boyer-Moore'), TEXT, ThreadPoolExecutor, max_workers=4)
 # output: {'brute-force': [(146, 157)], 'Boyer-Moore': [(4, 15), (214, 225)]}
 ```
 
 > Details
 
-To fetch various patterns, **pybmoore** internally uses a [ProcessPoolExecutor](https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.ProcessPoolExecutor). For granular control of the pool, use the parameters listed in the module documentation. For example:
-
-```python
-import pybmoore
-
-
-TEXT = """The Boyer-Moore algorithm searches for occurrences of P in T by 
-performing explicit character comparisons at different alignments. Instead of a 
-brute-force search of all alignments (of which there are m − n + 1, Boyer-Moore 
-uses information gained by preprocessing P to skip as many alignments as possible.
-"""
-
-pybmoore.search(['brute-force', 'Boyer-Moore'], TEXT, max_workers=2)
-```
+For granular control of the pool, use the parameters listed in the module documentation. For example:
 
 ## Development
 
