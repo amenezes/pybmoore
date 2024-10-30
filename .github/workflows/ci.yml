@@ -31,10 +31,5 @@ jobs:
       run: |
         make build USE_CYTHON=1
         make ci SKIP_STYLE=true
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        file: ./coverage.xml
-        fail_ci_if_error: true
     - name: Run pytest benchmark
       run: pytest benchmark/test_pybmoore.py
