@@ -10,10 +10,10 @@ Python/Cython implementation of [Boyer-Moore string-search algorithm](https://en
 
 ## Installing
 
-Install and update using pip:
+Install and update using uv:
 
 ````bash
-pip install pybmoore
+uv pip install pybmoore
 ````
 
 > notice: `gcc` must be available on the system.

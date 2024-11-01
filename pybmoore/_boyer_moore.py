@@ -1,14 +1,12 @@
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
 from functools import singledispatch
-from typing import List, Set, Tuple, Union
+from typing import Dict, List, Set, Tuple, Union
 
 from pybmoore import _bm  # type: ignore
 
 
 @singledispatch
-def search(
-    pattern: Union[str, List[str], Set[str], Tuple[str]], source: str
-) -> List[Tuple[int, int]]:
+def search(pattern: str, source: str) -> List[Tuple[int, int]]:
     """Search for some pattern in the source.
 
     Usage:
@@ -41,7 +39,7 @@ def search_m(
     executor: Union[ProcessPoolExecutor, ThreadPoolExecutor],
     *args,
     **kwargs,
-) -> List[Tuple[int, int]]:
+) -> Dict[str, Tuple[int, int]]:
     """Search for some patterns in the source.
 
     Usage:
