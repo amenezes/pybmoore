@@ -34,10 +34,6 @@ ifeq ($(GITHUB_HEAD_REF), false)
 	codecov -f coverage.xml -t $$CODECOV_TOKEN
 endif
 
-tox:
-	@echo "> running tox..."
-	tox -r -p all
-
 build:
 	@echo "> building package..."
 	python setup.py build_ext -i
@@ -61,12 +57,11 @@ about:
 	@echo "make lint   - Runs: [isort > black > flake8 > mypy]"
 	@echo "make tests  - Runs: [tests]"
 	@echo "make ci     - Runs: [lint > tests]"
-	@echo "make tox    - Runs: [tox]"
 	@echo "make clean  - Clean the environment for a new build [flag available, default FORCE=false]."
 	@echo "make build  - Build package [flag available, default USE_CYTHON=false]."
 	@echo ""
 	@echo "mailto: alexandre.fmenezes@gmail.com"
 
-all: build ci tox
+all: build ci
 
-.PHONY: lint tests ci tox clean build all
+.PHONY: lint tests ci clean build all

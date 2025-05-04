@@ -1,4 +1,5 @@
 import cython
+cimport cython
 
 from ._bm cimport calc_offset, term_index
 
@@ -26,6 +27,8 @@ cpdef search(pattern: str, source: str):
     bad_char = bad_char_shift(pattern, pattern_len - 1)
     r = []
     i: cython.int = 0
+    badchar_shift: cython.int = 0
+
     while i < ((source_len - pattern_len) + 1):
         sliding_window: cython.int = pattern_len
         while (
@@ -35,10 +38,10 @@ cpdef search(pattern: str, source: str):
             sliding_window -= 1
         if sliding_window > 0:
             try:
-                badchar_shift: cython.int = bad_char[source[i + sliding_window - 1]]
+                badchar_shift = bad_char[source[i + sliding_window - 1]]
             except KeyError:
-                badchar_shift: cython.int = pattern_len
-            goodsuffix_shift = good_suffix[pattern_len - sliding_window]
+                badchar_shift = pattern_len
+            goodsuffix_shift: cython.int = good_suffix[pattern_len - sliding_window]
             i += calc_offset(badchar_shift, goodsuffix_shift)
         else:
             r.append((i, i + pattern_len))
@@ -46,31 +49,46 @@ cpdef search(pattern: str, source: str):
     return r
 
 
-cdef bad_char_shift(str pattern, int pattern_len):
-    return {pattern[i]: (pattern_len - i) for i in range(pattern_len)}
+cdef dict bad_char_shift(str pattern, int pattern_len):
+    shift_dict: dict = {}
+    i: cython.int = 0
+    for i in range(pattern_len):
+        shift_dict[pattern[i]] = pattern_len - i
+    return shift_dict
 
 
-cdef suffix_shift(str pattern, int pattern_len):
-    skip_list = {}
+cdef dict suffix_shift(str pattern, int pattern_len):
+    skip_dict: dict = {}
     _buffer = ""
+
     for badchar in reversed(pattern):
-        skip_list[len(_buffer)] = suffix_position(
+        skip_dict[len(_buffer)] = suffix_position(
             badchar, _buffer, pattern, pattern_len
         )
         _buffer = f"{_buffer}{badchar}"
-    return skip_list
+    return skip_dict
 
 
 cdef int suffix_position(str badchar, str suffix, str pattern, int pattern_len):
+    ZERO: cython.int = 0
+    ONE: cython.int = 1
+
     suffix_len: cython.int = len(suffix)
-    for offset in reversed(range(1, pattern_len + 1)):
+    suffix_index: cython.int = 0
+    offset: cython.int = 1
+    pattern_char_value: cython.int = 0
+    suffix_char_value: cython.int = 0
+    
+    for offset in reversed(range(ONE, pattern_len + ONE)):
         flag_active: cython.bint = 1
-        tindex = term_index(offset, suffix_len)
+        tindex: cython.int = term_index(offset, suffix_len)
         for suffix_index in range(suffix_len):
+            pattern_char_value: cython.int = ord(pattern[tindex + suffix_index])
+            suffix_char_value: cython.int = ord(suffix[suffix_index])
             flag_active: cython.bint = flag(
                 tindex,
-                ord(suffix[suffix_index]),
-                ord(pattern[tindex + suffix_index])
+                suffix_char_value,
+                pattern_char_value                
             )
-        if flag_active and (tindex <= 0 or pattern[tindex - 1] != badchar):
+        if flag_active and (tindex <= ZERO or pattern[tindex - ONE] != badchar):
             return pattern_len - offset + 1

@@ -1,5 +1,4 @@
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
-from pathlib import Path
 
 import pytest
 
@@ -99,132 +98,115 @@ def test_search(pattern, expected):
 
 
 @pytest.mark.parametrize(
-    "filename, pattern, expected",
+    "pattern, expected",
     [
-        ("tests/data/br_constitution.txt", "Deus", 3),
-        ("tests/data/br_constitution.txt", "Lei nº", 49),
-        ("tests/data/br_constitution.txt", "Brasil", 41),
-        ("tests/data/br_constitution.txt", "§ 1º", 293),
-        ("tests/data/br_constitution.txt", "Supremo Tribunal Federal", 62),
-        ("tests/data/us_constitution.txt", "Section", 56),
-        ("tests/data/us_constitution.txt", "freedom", 1),
-        ("tests/data/us_constitution.txt", "Congress", 60),
-        ("tests/data/us_constitution.txt", "Congress of the United States", 1),
+        ("Section", 56),
+        ("freedom", 1),
+        ("Congress", 60),
+        ("Congress of the United States", 1),
     ],
 )
-def test_search_with_large_text(filename, pattern, expected):
-    assert len(pybmoore.search(pattern, Path(filename).read_text())) == expected
+def test_search_with_large_text_us(us_constitution_text, pattern, expected):
+    assert len(pybmoore.search(pattern, us_constitution_text)) == expected
 
 
 @pytest.mark.parametrize(
-    "filename, patterns, executor, expected",
+    "pattern, expected",
+    [
+        ("Deus", 3),
+        ("Lei nº", 49),
+        ("Brasil", 41),
+        ("§ 1º", 293),
+        ("Supremo Tribunal Federal", 62),
+    ],
+)
+def test_search_with_large_text_br(br_constitution_text, pattern, expected):
+    assert len(pybmoore.search(pattern, br_constitution_text)) == expected
+
+
+@pytest.mark.parametrize(
+    "patterns, expected, executor",
     [
         (
-            "tests/data/br_constitution.txt",
-            ["Deus", "Brasil"],
-            ThreadPoolExecutor,
-            {"Deus": 3, "Brasil": 41},
-        ),
-        (
-            "tests/data/br_constitution.txt",
-            ["Deus", "Brasil"],
-            ProcessPoolExecutor,
-            {"Deus": 3, "Brasil": 41},
-        ),
-        (
-            "tests/data/us_constitution.txt",
             ["freedom", "Congress"],
-            ThreadPoolExecutor,
             {"freedom": 1, "Congress": 60},
+            ThreadPoolExecutor,
         ),
         (
-            "tests/data/us_constitution.txt",
             ["freedom", "Congress"],
-            ProcessPoolExecutor,
             {"freedom": 1, "Congress": 60},
+            ProcessPoolExecutor,
+        ),
+        (
+            {"freedom", "Congress"},
+            {"freedom": 1, "Congress": 60},
+            ThreadPoolExecutor,
+        ),
+        (
+            {"freedom", "Congress"},
+            {"freedom": 1, "Congress": 60},
+            ProcessPoolExecutor,
+        ),
+        (
+            ("freedom", "Congress"),
+            {"freedom": 1, "Congress": 60},
+            ThreadPoolExecutor,
+        ),
+        (
+            ("freedom", "Congress"),
+            {"freedom": 1, "Congress": 60},
+            ProcessPoolExecutor,
+        ),
+        (
+            "Congress",
+            {"Congress": 60},
+            ThreadPoolExecutor,
+        ),
+        (
+            "freedom",
+            {"freedom": 1},
+            ProcessPoolExecutor,
         ),
     ],
 )
-def test_search_multiple_terms_using_list(filename, patterns, executor, expected):
-    result = pybmoore.search_m(patterns, Path(filename).read_text(), executor)
+def test_search_multiple_terms_us(us_constitution_text, patterns, expected, executor):
+    result = pybmoore.search_m(patterns, us_constitution_text, executor)
     assert result.keys() == expected.keys()
     for pattern, expected_count in expected.items():
         assert len(result[pattern]) == expected_count
 
 
 @pytest.mark.parametrize(
-    "filename, patterns, executor, expected",
+    "patterns, expected, executor",
     [
-        (
-            "tests/data/br_constitution.txt",
-            {"Deus", "Brasil"},
-            ThreadPoolExecutor,
-            {"Deus": 3, "Brasil": 41},
-        ),
-        (
-            "tests/data/br_constitution.txt",
-            {"Deus", "Brasil"},
-            ProcessPoolExecutor,
-            {"Deus": 3, "Brasil": 41},
-        ),
-        (
-            "tests/data/us_constitution.txt",
-            {"freedom", "Congress"},
-            ThreadPoolExecutor,
-            {"freedom": 1, "Congress": 60},
-        ),
-        (
-            "tests/data/us_constitution.txt",
-            {"freedom", "Congress"},
-            ProcessPoolExecutor,
-            {"freedom": 1, "Congress": 60},
-        ),
+        (["Deus", "Brasil"], {"Deus": 3, "Brasil": 41}, ThreadPoolExecutor),
+        (["Lei nº", "§ 1º"], {"Lei nº": 49, "§ 1º": 293}, ProcessPoolExecutor),
+        ({"Deus", "Brasil"}, {"Deus": 3, "Brasil": 41}, ThreadPoolExecutor),
+        ({"Lei nº", "§ 1º"}, {"Lei nº": 49, "§ 1º": 293}, ProcessPoolExecutor),
+        (("Deus", "Brasil"), {"Deus": 3, "Brasil": 41}, ThreadPoolExecutor),
+        (("Lei nº", "§ 1º"), {"Lei nº": 49, "§ 1º": 293}, ProcessPoolExecutor),
+        ("Deus", {"Deus": 3}, ThreadPoolExecutor),
+        ("Lei nº", {"Lei nº": 49}, ProcessPoolExecutor),
     ],
 )
-def test_search_multiple_terms_using_set(filename, patterns, executor, expected):
-    result = pybmoore.search_m(patterns, Path(filename).read_text(), executor)
+def test_search_multiple_terms_br(br_constitution_text, patterns, expected, executor):
+    result = pybmoore.search_m(patterns, br_constitution_text, executor)
     assert result.keys() == expected.keys()
     for pattern, expected_count in expected.items():
         assert len(result[pattern]) == expected_count
 
 
-@pytest.mark.parametrize(
-    "filename, patterns, executor, expected",
-    [
-        (
-            "tests/data/br_constitution.txt",
-            ("Deus", "Brasil"),
-            ThreadPoolExecutor,
-            {"Deus": 3, "Brasil": 41},
-        ),
-        (
-            "tests/data/br_constitution.txt",
-            ("Deus", "Brasil"),
-            ProcessPoolExecutor,
-            {"Deus": 3, "Brasil": 41},
-        ),
-        (
-            "tests/data/us_constitution.txt",
-            ("freedom", "Congress"),
-            ThreadPoolExecutor,
-            {"freedom": 1, "Congress": 60},
-        ),
-        (
-            "tests/data/us_constitution.txt",
-            ("freedom", "Congress"),
-            ProcessPoolExecutor,
-            {"freedom": 1, "Congress": 60},
-        ),
-    ],
-)
-def test_search_multiple_terms_using_tuple(filename, patterns, executor, expected):
-    result = pybmoore.search_m(patterns, Path(filename).read_text(), executor)
-    assert result.keys() == expected.keys()
-    for pattern, expected_count in expected.items():
-        assert len(result[pattern]) == expected_count
-
-
-@pytest.mark.parametrize("pattern", [1.0, 1, None, True, {}])
-def test_pattern_not_supported(pattern):
+@pytest.mark.parametrize("pattern", [-1.0, -1, 1.0, 1, None, True, False, {}])
+def test_not_implemented_search(pattern):
     with pytest.raises(NotImplementedError):
         pybmoore.search(pattern, "Python/Cython Boyer-Moore string-search algorithm")
+
+
+@pytest.mark.parametrize("pattern", [-1.0, -1, 1.0, 1, None, True, False, {}])
+def test_not_implemented_search_m(pattern):
+    with pytest.raises(NotImplementedError):
+        pybmoore.search_m(
+            pattern,
+            "Python/Cython Boyer-Moore string-search algorithm",
+            ThreadPoolExecutor,
+        )

@@ -6,30 +6,43 @@ jobs:
   tests:
     strategy:
       matrix:
-        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
-        os: [ubuntu]
+        python-version: ['3.10', '3.11', '3.12', '3.13']
+        os: [ubuntu-latest]
       fail-fast: true
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 5
     steps:
-    - uses: actions/checkout@master
-    - uses: actions/setup-python@v2
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-        architecture: x64
-    - uses: actions/cache@v2
+    - name: Cache dependencies
+      uses: actions/cache@v3
       with:
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements-dev.txt') }}
-        path: ~/.cache/pip
-        restore-keys: |
-          ${{ runner.os }}-pip-
-    - name: Install Python dependencies
-      uses: py-actions/py-dependency-install@v2
-      with:
-        path: "./requirements-dev.txt"
-    - name: Run lint & tests
+        key: ${{ runner.os }}-uv-${{ hashFiles('**/requirements-dev.txt') }}
+        path: |
+          ~/.cache/uv
+          ~/.cache/pip
+          venv
+    - name: Install UV
+      run: curl -LsSf https://astral.sh/uv/install.sh | sh
+    - name: Setup virtual environment
+      run: uv venv -p python3 venv
+    - name: Install dependencies
       run: |
-        make build USE_CYTHON=1
-        make ci SKIP_STYLE=true
-    - name: Run pytest benchmark
-      run: pytest benchmark/test_pybmoore.py
+        source venv/bin/activate
+        uv pip install --upgrade -r requirements-dev.txt
+        uv pip install -e .
+    - name: Build Cython extensions
+      run: |
+        source venv/bin/activate
+        make clean build USE_CYTHON=1
+    - name: Run lint and tests
+      run: |
+        source venv/bin/activate
+        make ci
+    - name: Run benchmarks
+      run: |
+        source venv/bin/activate
+        pytest benchmark/test_pybmoore.py
